@@ -1,6 +1,7 @@
 package tacos.web;
 
 import org.springframework.stereotype.Controller;
+
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,10 +14,10 @@ import tacos.Order;
 import javax.validation.Valid;
 import org.springframework.validation.Errors;
 
+
 @Slf4j
 @Controller
 @RequestMapping("/orders")
-@SessionAttributes("order")
 public class OrderController {
 	
 	

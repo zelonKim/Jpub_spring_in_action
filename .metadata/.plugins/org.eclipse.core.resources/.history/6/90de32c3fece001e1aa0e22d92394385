@@ -1,0 +1,25 @@
+package tacos.data;
+
+import org.springframework.jdbc.core.JdbcTemplate;
+import tacos.Taco;
+
+
+public class JdbcTacoRepository implements TacoRepository {
+	
+	private JdbcTemplate jdbc;
+	
+	public JdbcTacoRepository(JdbcTemplate jdbc) {
+		this.jdbc = jdbc;
+	}
+	
+	@Override
+	public Taco save(Taco taco) {
+		long tacoId = saveTacoInfo(taco);
+		taco.setId(tacoId);
+		for (Ingredient ingredient : taco.getIngredients()) {
+			saveIngredientToTaco(ingredient, tacoId);
+		}
+	}
+	
+	
+}
