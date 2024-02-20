@@ -1,0 +1,5 @@
+package tacos.web;
+
+public class IngredientByIdConverter implements Converter<String, Ingredient> {
+ 	private IngredientRepository ingredientRepo;
+}

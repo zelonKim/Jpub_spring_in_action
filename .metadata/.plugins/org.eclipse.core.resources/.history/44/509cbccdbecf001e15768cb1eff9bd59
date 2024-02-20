@@ -1,0 +1,20 @@
+//package tacos.data;
+//
+//import tacos.Taco;
+//
+//public interface TacoRepository {
+//	Taco save(Taco design);
+//}
+
+
+
+////////////////
+
+
+package tacos.data;
+
+import tacos.Taco;
+
+public interface TacoRepository extends CrudRepository<Taco, Long> {
+
+}

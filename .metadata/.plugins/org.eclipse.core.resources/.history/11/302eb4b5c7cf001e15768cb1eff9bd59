@@ -1,0 +1,56 @@
+//package tacos.web;
+//
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.core.convert.converter.Converter;
+//import org.springframework.stereotype.Component;
+//
+//import tacos.Ingredient;
+//import tacos.data.IngredientRepository;
+//
+//@Component // 해당 클래스가 스프링에 의해 자동 생성 및 주입되는 빈으로 생성됨.
+//public class IngredientByIdConverter implements Converter<String, Ingredient> { // Converter<변환 전 값의 타입, 변환 후 값의 타입>
+// 	private IngredientRepository ingredientRepo;
+// 	
+// 	@Autowired
+// 	public IngredientByIdConverter(IngredientRepository ingredientRepo) {
+// 		this.ingredientRepo = ingredientRepo;
+// 	}
+// 	
+// 	@Override
+// 	public Ingredient convert(String id) {
+// 		return ingredientRepo.findById(id);
+// 	}
+//}
+
+
+
+///////////////////
+
+
+package tacos.web;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
+
+import tacos.Ingredient;
+import tacos.data.IngredientRepository;
+
+@Component 
+public class IngredientByIdConverter implements Converter<String, Ingredient> { 
+ 	private IngredientRepository ingredientRepo;
+ 	
+ 	@Autowired
+ 	public IngredientByIdConverter(IngredientRepository ingredientRepo) {
+ 		this.ingredientRepo = ingredientRepo;
+ 	}
+ 	
+ 	@Override
+ 	public Ingredient convert(String id) {
+ 		Optional<Ingredient> optionalIngredient = ingredientRepo.findById(id);
+ 		return optionalIngredient.isPresent() ? optionalIngredient.get() : null;
+ 	}
+}
+

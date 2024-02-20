@@ -1,0 +1,27 @@
+package tacos.data;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.stereotype.Repository;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+
+@Repository
+public class JdbcOrderRepository implements OrderRepository {
+	
+	private SimpleJdbcInsert orderInserter;
+	private SimpleJdbcInsert orderTacoInserter;
+	private ObjectMapper objectMapper;
+	
+	@Autowired
+	public JdbcOrderRepository(JdbcTemplate jdbc) { // JdbcTemplate을 사용해서 SimpleJdbcInsert 인스턴스를 생성함.
+		this.orderInserter = new SimpleJdbcInsert(jdbc).withTableName("Taco_Order").usingGeneratedKeyColumns("id"); // Taco_Order 테이블에 주문 데이터를 추가하기 위해 구성됨.  // id속성값은 데이터베이스가 생성해주는 것을 사용함.
+		this.orderTacoInserter = new SimpleJdbcInsert(jdbc).withTableName("Taco_Order_Tacos"); // Taco_Order_Tacos 테이블에 해당 주문 id 및 연관된 타코 id를 추가하기 위해 구성됨.
+		this.objectMapper = new ObjectMapper();
+	}
+	
+	
+	
+}

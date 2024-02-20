@@ -1,0 +1,58 @@
+//package tacos.web;
+
+//
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.core.convert.converter.Converter;
+//import org.springframework.stereotype.Component;
+//
+//import tacos.Ingredient;
+//import tacos.data.IngredientRepository;
+//
+//@Component // 해당 클래스가 스프링에 의해 자동 생성 및 주입되는 빈으로 생성됨.
+//public class IngredientByIdConverter implements Converter<String, Ingredient> { // Converter<변환 전 값의 타입, 변환 후 값의 타입>
+// 	private IngredientRepository ingredientRepo;
+// 	
+// 	@Autowired
+// 	public IngredientByIdConverter(IngredientRepository ingredientRepo) {
+// 		this.ingredientRepo = ingredientRepo;
+// 	}
+// 	
+// 	@Override
+// 	public Ingredient convert(String id) {
+// 		return ingredientRepo.findById(id);
+// 	}
+//}
+
+
+
+///////////////////
+
+
+package tacos.web;
+
+import java.util.Optional;
+
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
+
+import tacos.Ingredient;
+import tacos.data.IngredientRepository;
+
+@Component 
+public class IngredientByIdConverter implements Converter<String, Ingredient> { 
+ 	private IngredientRepository ingredientRepo;
+ 	
+ 	@Autowired
+ 	public IngredientByIdConverter(IngredientRepository ingredientRepo) {
+ 		this.ingredientRepo = ingredientRepo;
+ 	}
+ 	
+ 	@Override
+ 	public Ingredient convert(String id) {
+ 		Optional<Ingredient> optionalIngredient = ingredientRepo.findById(id); // 데이터베이스에 저장된 특정 식자재 데이터를 읽은 후, Ingredient 객체로 변환함.
+ 		return optionalIngredient.isPresent() ? optionalIngredient.get() : null; // 데이터베이스에서 식자재를 찾지 못했을 경우, null을 반환함.
+ 	}
+}
+
