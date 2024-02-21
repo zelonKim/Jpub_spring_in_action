@@ -1,0 +1,53 @@
+package tacos.security;
+
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation
+					.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation
+					.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web
+					.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web
+					.configuration.WebSecurityConfigurerAdapter;
+
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter { // 사용자의 HTTP 요청 경로에 대해 보안 처리를 원하는 대로 지정함.
+	@Override
+	protected void configure(HttpSecurity http) throws Exception { // HTTP 보안을 구성하는 메서드
+		http.authorizeRequests()
+				.antMatchers("/design", "/orders").access("hasRole('ROLE_USER')") // "/design"와 "/orders" 경로는 ROLE_USER 사용자의 홈페이지 접근을 허용함.
+				.antMatchers("/", "/**").access("permitAll") // "/" 와 "/**" 경로는 모든 사용자의 홈페이지 접근을 허용함.
+			.and()
+				.httpBasic();
+	}
+	
+	
+	@Autowired
+	DataSource dataSource; // 사용자 정보를 저장하는 테이블과 열이 정해져 있고, 쿼리가 미리 생성되어 있음.
+	
+	
+	@Override
+	public void configure(AuthenticationManagerBuilder auth) throws Exception { // 사용자 인증 정보를 구성하는 메서드
+/*
+		auth.inMemoryAuthentication() // 인메모리 사용자 스토어를 구성함으로써, 한 명 이상의 사용자를 처리할 수 있도록 함.
+			.withUser("user1") // 사용자 이름을 인자로 전달함.
+			.password("{noop}password1") // {noop}을 지정함으로써 비밀번호를 암호화하지 않음.
+			.authorities("ROLE_USER") 
+			.and()
+			.withUser("user2")
+			.password("{noop}password2")
+			.authorities("ROLE_USER");
+	} // ROLE_USER 사용자 정보를 직접 지정함.
+*/
+	
+		auth.jdbcAuthentication() // JDBC 기반 사용자 스토어를 구성함.
+			.dataSource(dataSource); // 데이터베이스를 액세스 하는 방법을 알 수 있도록 해줌.
+		
+	}
+	
+}
