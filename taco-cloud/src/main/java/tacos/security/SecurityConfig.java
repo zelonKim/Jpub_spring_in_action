@@ -33,9 +33,32 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter { // 사용자�
 		
 		http.authorizeRequests() 
 		.antMatchers("/design", "/orders").access("hasRole('ROLE_USER')") // "/design"와 "/orders" 경로는 ROLE_USER 사용자만 홈페이지 접근을 허용함.
-		.antMatchers("/", "/**").access("permitAll"); // "/" 와 "/**" 경로는 모든 사용자의 홈페이지 접근을 허용함.
-
+		.antMatchers("/", "/**").access("permitAll") // "/" 와 "/**" 경로는 모든 사용자의 홈페이지 접근을 허용함.
 		
+		.and()
+		.formLogin() // 커스텀 로그인 페이지가 있는 경로를 스프링 시큐리티에 알려줌.
+		.loginPage("/login") // 커스텀 로그인 페이지 경로를 지정함.
+		//.defaultSuccessUrl("/design", true) // 사용자가 직접 로그인 페이지로 이동한 후 로그인을 성공적으로 할 경우, 이동할 페이지를 지정함.
+		  // 두번째 인자로 true를 전달할 경우, 사용자가 로그인 전에 어떤 페이지에 있었는지와 무관하게 로그인 후에는 무조건 지정된 페이지로 이동함.
+		
+		// 기본적으로 스프링은 '/login' 경로로 로그인 요청처리를 함.
+		//.loginProcessingUrl("/authenticate") // 로그인 요청처리 경로를 직접 지정함.
+		
+		// 기본적으로 스프링은 'username'라는 사용자 이름 필드를 가짐.
+		//.usernameParameter("user") // 사용자 이름 필드를 지정함.
+		
+		// 기본적으로 스프링은 'password'라는 비밀번호 필드를 가짐.
+		//.passwordParameter("pwd") // 비밀번호 필드를 지정함.
+		
+		.and()
+		.logout()
+		.logoutSuccessUrl("/") // 로그아웃 이후에 이동할 페이지를 지정함.
+		
+		.and()
+		.csrf();
+		//.disable(); // REST API 서버로 실행되는 애플리케이션의 경우, CSRF 지원을 비활성화 해야함.
+		
+
 	}
 	
 	

@@ -58,7 +58,6 @@ package tacos;
 
 import java.io.Serializable;
 
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -68,6 +67,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
@@ -91,6 +91,9 @@ public class Order implements Serializable {
 	private Long id;
 	
 	private Date placedAt;
+	
+	@ManyToOne // 한 명의 사용자(user)는 여러 주문(order)을 가질 수 있음.  // 한 건의 주문(order)이 한 명의 사용자에(user)게 속함을 나타냄. 
+	private User user;
 	
 	@NotBlank(message="Name is required")
 	private String deliveryName;
