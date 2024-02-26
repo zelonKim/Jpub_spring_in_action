@@ -1,0 +1,8 @@
+package tacos.web;
+
+@Component
+@ConfigurationProperties(prefix="taco.orders")
+@Data
+public class OrderProps {
+	private int pageSize = 20;
+}

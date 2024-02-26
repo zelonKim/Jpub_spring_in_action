@@ -3,8 +3,12 @@ package tacos.web;
 import javax.validation.Valid;
 
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,9 +29,13 @@ import tacos.data.OrderRepository;
 @SessionAttributes("order")
 public class OrderController {
 	
+	private OrderProps props;
+	
 	private OrderRepository orderRepo;
 	
-	public OrderController(OrderRepository orderRepo) {
+	
+	public OrderController(OrderProps props, OrderRepository orderRepo) {
+		this.props = props;
 		this.orderRepo = orderRepo;
 	}
 	
@@ -71,4 +79,16 @@ public class OrderController {
 		
 		return "redirect:/";
 	}
+	
+	
+	
+	@GetMapping
+	public String ordersForUser(@AuthenticationPrincipal User user, Model model) {
+		Pageable pageable = PageRequest.of(0, props.getPageSize()); // 페이지 번호와 크기로 결과의 일부분만 선택함.
+		
+		model.addAttribute("orders", orderRepo.findByUserOrderByPlacedAtDesc(user, pageable)); 
+		
+		return "orderList";
+	}
+	
 }

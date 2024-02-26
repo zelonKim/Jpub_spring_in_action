@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;application.yml&apos; to &apos;application.yml&apos;&#x0A;- Original project: &apos;taco-cloud&apos;&#x0A;- Destination element: &apos;application.yml&apos;&#x0A;- Original element: &apos;application.yml&apos;" description="Copy file" element1="src/main/resources/application.yml" files="1" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1708924982772" target="/taco-cloud/src/main/resources/application.yml" units="0" version="1.0"/>
+</session>
